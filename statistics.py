@@ -7,7 +7,7 @@ def chi_sqauare(data, data_expected):
     if p <= 0.05:
         decision = 1
 
-    return decision, p
+    return decision
 
 def t_stjudent(data, data_expected):
 
@@ -16,7 +16,7 @@ def t_stjudent(data, data_expected):
     if p <= 0.05:
         decision = 1
 
-    return decision, p
+    return decision
 
 def u_mannwhitney(data, data_expected):
 
@@ -25,4 +25,4 @@ def u_mannwhitney(data, data_expected):
     if p<= 0.05:
         decicion = 1
 
-    return decicion, p
+    return decicion
