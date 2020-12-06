@@ -10,13 +10,13 @@ def read_file(file_name):
     y, sr = librosa.load(file_name)
     return y, sr
 
-def get_data_set(dyrectory):
+def get_data_set(directory):
 
-    files_name = os.listdir("dataset")
+    files_name = os.listdir(directory)
     y = []
 
     for file in files_name:
-        path = dyrectory + "/" + file
+        path = directory + "/" + file
         [a, b] = read_file(path)
         y.append(a)
 
