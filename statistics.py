@@ -5,7 +5,7 @@ import numpy as np
 def chi_sqauare(data, data_expected):
 
     [chi, p] = stats.chisquare(f_obs=data, f_exp=data_expected)
-    decision = -1
+    decision = 0
     if p <= 0.05:
         decision = 1
 
@@ -14,7 +14,7 @@ def chi_sqauare(data, data_expected):
 def t_stjudent(data, data_expected):
 
     [t, p] = stats.ttest_ind(a=data, b=data_expected, equal_var=False)
-    decision = -1
+    decision = 0
     if p <= 0.05:
         decision = 1
 
@@ -23,23 +23,44 @@ def t_stjudent(data, data_expected):
 def u_mannwhitney(data, data_expected):
 
     [u, p] = stats.mannwhitneyu(x=data, y=data_expected)
-    decicion = -1
+    decicion = 0
     if p<= 0.05:
         decicion = 1
 
     return decicion
 
 
-[y1, sr1] = display.read_file("se-2.wav")
-[y2, sr2] = display.read_file("se.wav")
+def use_stat_for_spectr(y1, y2):
 
-[hist1, edges1] = np.histogram(a=y1, bins=50)
-[hist2, edges2] = np.histogram(a=y2, bins=50)
+    f1, t1, s1 = spectrogram(x=y1)
+    f2, t2, s2 = spectrogram(x=y2)
 
-[result_chi, p_chi] = chi_sqauare(data=hist1, data_expected=hist2)
-[result_t, p_t] = t_stjudent(data=y1, data_expected=y2)
-[result_u, p_u] = u_mannwhitney(data=hist1, data_expected=hist2)
+    chi = 0
+    umann = 0
+    student = 0
 
+    indexes = list(range(0, len(f1), 2))
 
+    for i in indexes:
+        [hist1, edges1] = np.histogram(a=s1[i], bins=492)
+        [hist2, edges2] = np.histogram(a=s2[i], bins=492)
 
-print("chi result: ", result_chi, " with p-value = ", p_chi, "\nstud result: ", result_t, " with p-value = ", p_t, "\nmann result: ", result_u, "with p-value = ", p_u)
+        decision_chi = chi_sqauare(data=hist1, data_expected=hist2)
+        decision_umann = u_mannwhitney(data=s1[i], data_expected=s2[i])
+        decision_student = t_stjudent(data=s1[i], data_expected=s2[i])
+
+        chi += decision_chi
+        umann += decision_umann
+        student += decision_student
+
+    chi_point = chi/len(indexes)
+    umann_point = umann/len(indexes)
+    student_point = student/len(indexes)
+
+    return chi_point, umann_point, student_point
+
+def weighted_vote(decisions, weights):
+    decisions = np.array(decisions)
+    weights = np.array(weights)
+    f = sum(decisions*weights)
+    return f > 0.7
