@@ -3,12 +3,24 @@ from librosa import display
 import matplotlib.pyplot as plt
 import numpy as np
 import soundfile as sf
+import os
 
 
 def read_file(file_name):
     y, sr = librosa.load(file_name)
     return y, sr
 
+def get_data_set(dyrectory):
+
+    files_name = os.listdir("dataset")
+    y = []
+
+    for file in files_name:
+        path = dyrectory + "/" + file
+        [a, b] = read_file(path)
+        y.append(a)
+
+    return y
 
 def audio_to_mel(y,sr):
     return librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128,fmax = 8000)
