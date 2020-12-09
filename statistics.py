@@ -29,6 +29,30 @@ def u_mannwhitney(data, data_expected):
 
     return decicion
 
+def filter_zeroes(s1, s2):
+    zero_index_1 = []
+    zero_index_2 = []
+
+    for j in range(len(s1)):
+        if s1[j] != 0 & s1[j] != np.NaN:
+            zero_index_1.append(j)
+        if s2[j] != 0 & s1[j] != np.NaN:
+            zero_index_2.append(j)
+
+    common_indexes = []
+
+    for k in range(min(len(zero_index_1), len(zero_index_2))):
+        if zero_index_1[k] == zero_index_2[k]:
+            common_indexes.append(k)
+
+    filtered_s_1 = []
+    filtered_s_2 = []
+
+    for i in common_indexes:
+        filtered_s_1.append(s1[i])
+        filtered_s_2.append(s2[i])
+
+    return filtered_s_1, filtered_s_2
 
 def use_stat_for_spectr(y1, y2):
 
@@ -44,8 +68,9 @@ def use_stat_for_spectr(y1, y2):
     for i in indexes:
         [hist1, edges1] = np.histogram(a=s1[i], bins=492)
         [hist2, edges2] = np.histogram(a=s2[i], bins=492)
+        filtered_s1, filtered_s2 = filter_zeroes(hist1, hist2)
 
-        decision_chi = chi_sqauare(data=hist1, data_expected=hist2)
+        decision_chi = chi_sqauare(data=filtered_s1, data_expected=filtered_s2)
         decision_umann = u_mannwhitney(data=s1[i], data_expected=s2[i])
         decision_student = t_stjudent(data=s1[i], data_expected=s2[i])
 
@@ -64,3 +89,11 @@ def weighted_vote(decisions, weights):
     weights = np.array(weights)
     f = sum(decisions*weights)
     return f > 0.7
+
+def regression(chi, student, mann):
+
+    inside = 0
+    if (chi > 0.85) and (student > 0.7) and (mann > 0.8):
+        inside = 1
+
+    return inside
