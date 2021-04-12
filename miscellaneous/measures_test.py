@@ -18,8 +18,8 @@ def itakuro_saito(p,q):
     q = 1e-17
   return p/q - np.log(p/q)-1
 
-#Kullback-Leibner
-def kullback_leibner(p,q):
+#Kullback-Leibler
+def kullback_leibler(p,q):
   if q ==0:
     q = 1e-17
   return p*np.log(p/q) + q-p
