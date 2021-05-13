@@ -55,7 +55,7 @@
 - [x] Познакомиться с сиамскими сетями
 
 Примерный план работ по презентации исследований:
-- [x] Выступить на [АрМНТК] (https://miem.hse.ru/armntk/)
+- [x] Выступить на [АрМНТК](https://miem.hse.ru/armntk/)
 - [x] Выступить на [LXII МНК](https://ssau.ru/events/1127-lxxi-molodezhnaya-nauchnaya-konferentsiya-posvyashchennaya-60-letiyu-poleta-v-kosmos-yua-gagarina)
 - [ ] Выступить на [ПИТ-2021](https://ssau.ru/events/1137-mezhdunarodnaya-nauchno-tekhnicheskaya-konferentsiya-perspektivnye-informatsionnye-tekhnologii-pit-2021)
 - [ ] Защитить диплом 
